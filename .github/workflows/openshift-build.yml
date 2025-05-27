@@ -1,0 +1,24 @@
+name: Trigger OpenShift Build
+
+on:
+  push:
+    branches: [ update-app2 ]
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install OC CLI
+      run: |
+        curl -LO "https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz"
+        tar -xvf oc.tar.gz
+        sudo mv oc /usr/local/bin/oc
+
+    - name: Login to OpenShift
+      run: |
+        oc login https://api.rm3.7wse.p1.openshiftapps.com:6443 --token=${{ secrets.OPENSHIFT_TOKEN }}
+
+    - name: Start Build in OpenShift
+      run: |
+        oc start-build version -n jesusalmanza-dev
