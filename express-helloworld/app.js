@@ -1,3 +1,6 @@
+require('dotenv').config();
+const secret = process.env.secret || 'invalid_secret';
+const configmap = process.env.configmap || 'invalid_configmap';
 var express = require('express');
 app = express();
 
